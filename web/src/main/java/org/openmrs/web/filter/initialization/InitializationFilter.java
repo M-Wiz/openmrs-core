@@ -932,6 +932,7 @@ public class InitializationFilter extends StartupFilter {
 			// or chooses it parameter at first page loading
 			if (storedLocale == null || !storedLocale.equals(localeParameter)) {
 				log.info("Stored locale parameter to session " + localeParameter);
+				String sanitizedLocale = localeParameter.replaceAll("[^a-zA-Z0-9_]", "");
 				httpRequest.getSession().setAttribute(FilterUtil.LOCALE_ATTRIBUTE, localeParameter);
 			}
 			if (rememberLocale) {
