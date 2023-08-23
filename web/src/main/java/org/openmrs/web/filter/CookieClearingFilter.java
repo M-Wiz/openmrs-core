@@ -83,17 +83,18 @@ public class CookieClearingFilter extends OncePerRequestFilter {
 				if (session == null && requestHasSession) {
 					for (Cookie cookie : request.getCookies()) {
 						for (String cookieToClear : cookiesToClear) {
-							String sanitizedCookieToClear = sanitizeCookieName(cookieToClear);
-							if (sanitizedCookieToClear.equalsIgnoreCase(cookie.getName())) {
-								Cookie clearedCookie = new Cookie(cookie.getName(), null);
-								String contextPath = request.getContextPath();
-								clearedCookie.setPath(
-									contextPath == null || contextPath.trim().equals("") ? "/" : contextPath);
-								clearedCookie.setMaxAge(0);
-								clearedCookie.setHttpOnly(true);
-								clearedCookie.setSecure(request.isSecure());
-								response.addCookie(clearedCookie);
-								break;
+							cookieToClear = cookieToClear.replace("\n", "").replace("\r", "");
+								if (cookieToClear.equalsIgnoreCase(cookie.getName())) {
+									Cookie clearedCookie = new Cookie(cookie.getName(), null);
+									String contextPath = request.getContextPath();
+									clearedCookie.setPath(
+										contextPath == null || contextPath.trim().equals("") ? "/" : contextPath);
+									clearedCookie.setMaxAge(0);
+									clearedCookie.setHttpOnly(true);
+									clearedCookie.setSecure(request.isSecure());
+									response.addCookie(clearedCookie);
+									break;
+								}
 							}
 						}
 					}
