@@ -936,11 +936,13 @@ public class InitializationFilter extends StartupFilter {
 				httpRequest.getSession().setAttribute(FilterUtil.LOCALE_ATTRIBUTE, localeParameter);
 			}
 			if (rememberLocale) {
+				String sanitizedLocale = localeParameter.replaceAll("[^a-zA-Z0-9_]", "");
 				httpRequest.getSession().setAttribute(FilterUtil.LOCALE_ATTRIBUTE, localeParameter);
 				httpRequest.getSession().setAttribute(FilterUtil.REMEMBER_ATTRIBUTE, true);
 				wizardModel.localeToSave = localeParameter;
 			} else {
 				// we need to reset it if it was set before
+				String sanitizedLocale = localeParameter.replaceAll("[^a-zA-Z0-9_]", "");
 				httpRequest.getSession().setAttribute(FilterUtil.REMEMBER_ATTRIBUTE, null);
 				wizardModel.localeToSave = null;
 			}
