@@ -66,6 +66,10 @@ public class TestInstallUtil {
 		Process proc;
 		BufferedReader br = null;
 		String errorMsg = null;
+
+		if (host.contains(";") || user.contains(";") || pwd.contains(";") || databaseName.contains(";") || filePath.contains(";")) {
+			return false;
+		}
 		String[] command = new String[] { "mysql", "--host=" + host, "--port=" + port, "--user=" + user,
 		        "--password=" + pwd, "--database=" + databaseName, "-e", "source " + filePath };
 		
