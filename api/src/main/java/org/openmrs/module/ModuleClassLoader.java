@@ -38,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -362,7 +364,8 @@ public class ModuleClassLoader extends URLClassLoader {
 		boolean include = true;
 		
 		for (ModuleConditionalResource conditionalResource : module.getConditionalResources()) {
-			if (fileUrl.getPath().matches(".*" + conditionalResource.getPath() + "$")) {
+			String sanitizedPath = Pattern.quote(conditionalResource.getPath());
+			if (fileUrl.getPath().matches(".*" + sanitizedPath + "$")) {
 				//if a resource matches a path of contidionalResource then it must meet all conditions
 				include = false;
 				
