@@ -72,6 +72,7 @@ import org.openmrs.web.filter.util.FilterUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ContextLoader;
+import java.security.SecureRandom;
 
 /**
  * This is the first filter that is processed. It is only active when starting OpenMRS for the very
@@ -1419,10 +1420,11 @@ public class InitializationFilter extends StartupFilter {
 							// generate random password from this subset of alphabet
 							// intentionally left out these characters: ufsb$() to prevent certain words forming randomly
 							String chars = "acdeghijklmnopqrtvwxyzACDEGHIJKLMNOPQRTVWXYZ0123456789.|~@#^&";
-							Random r = new Random();
+							SecureRandom secureRandom = new SecureRandom();
 							StringBuilder randomStr = new StringBuilder("");
 							for (int x = 0; x < 12; x++) {
-								randomStr.append(chars.charAt(r.nextInt(chars.length())));
+								int randomIndex = secureRandom.nextInt(chars.length());
+								randomStr.append(chars.charAt(randomIndex));
 							}
 							connectionPassword.append(randomStr);
 							
