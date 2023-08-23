@@ -83,7 +83,8 @@ public class CookieClearingFilter extends OncePerRequestFilter {
 				if (session == null && requestHasSession) {
 					for (Cookie cookie : request.getCookies()) {
 						for (String cookieToClear : cookiesToClear) {
-							if (cookieToClear.equalsIgnoreCase(cookie.getName())) {
+							String sanitizedCookieToClear = sanitizeCookieName(cookieToClear);
+							if (sanitizedCookieToClear.equalsIgnoreCase(cookie.getName())) {
 								Cookie clearedCookie = new Cookie(cookie.getName(), null);
 								String contextPath = request.getContextPath();
 								clearedCookie.setPath(
